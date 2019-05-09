@@ -1,0 +1,151 @@
+#+property: header-args :tangle .zshrc
+#+title: My literate, framework-less zsh configuration
+# Note: export with org-babel-tangle (C-c C-v t)
+# More info at: https://org-babel.readthedocs.io/en/latest/header-args/#tangle
+
+* Table of Contents                                                   :TOC_3:
+- [[#introduction][Introduction]]
+  - [[#how-the-magic-is-done][How the magic is done]]
+- [[#history-file-settings][History file settings]]
+- [[#bootstrapping-the-prompt][Bootstrapping the prompt]]
+- [[#colored-man-pages-without-a-plugin][Colored man pages without a plugin]]
+- [[#bindkey][Bindkey]]
+- [[#set-the-terminal-title][Set the terminal title]]
+- [[#completion-settings][Completion settings]]
+- [[#have-arrow-keys-search-history-while-typing-a-command][Have arrow keys search history while typing a command]]
+- [[#zsh-options][Zsh options]]
+- [[#aliases][Aliases]]
+- [[#settings-for-external-programs][Settings for external programs]]
+  - [[#enable-true-color-for-the-micro-text-editor][Enable true color for the micro text editor]]
+
+* Introduction
+For a while I was using zsh with the [[https://github.com/robbyrussell/oh-my-zsh/][oh-my-zsh]] framework. However, as I became more advanced in using Linux, and started writing my own dotfiles, I realised I had no idea what this thing was doing, and decided to examine my shell using habits to see if I even needed oh-my-zsh at all. It turns out that I wasn't really using much of what oh-my-zsh offers (I wasn't even using any signifact plugins), so I could get rid of this framework. I pondered whether I should use [[https://github.com/zplug/zplug][zplug]], which is a plugin manager, but I was using only two plugins and thus concluded that it wasn't worth it and decided my make my config without any frameworks and plugin managers whatsoever. I did however want to make my config literate, in order to be able to note the thought process behind each setting and where I found various code snippets, and there's no better way to make one's config literate than Emacs's org mode, with which I'm already acquainted due to my other dotfiles.
+** How the magic is done
+I put in the beginning of this org file the string
+#+begin_example
+#+property: header-args :tangle .zshrc
+#+end_example
+which tells the src blocks to get tangled (= exported) to a file called .zshrc, so that zsh will be able to see it. For the src blocks themselves, I'm using ~begin_src sh~ as this gets syntax highlighting on both emacs itself and Github.
+* History file settings
+The history file is necessary, as this is what's used for reverse history search. I named it ~.zsh_history~ instead of the default ~.histfile~ and increased the number of entries to save [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/history.zsh#L30][according to their setting on oh-my-zsh]].
+#+begin_src sh
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=10000
+#+end_src
+* Bootstrapping the prompt
+I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]]. Here I have a conditional (the code of which is adapted from [[https://github.com/zplug/zplug/wiki/Configurations#examples][here]]) that detects if the directory in which the code of said prompt resides exists and, if not, clones the github repo (note that this obviously requires git). Immediately afterwards the prompt is sourced.
+#+begin_src sh
+#autoinstall the agkozak zsh prompt
+if [[ ! -d ~/agkozak-zsh-prompt ]]; then
+  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/agkozak-zsh-prompt
+fi
+#source it
+source ~/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
+#+end_src
+Regarding the settings of said prompt, I want the git info to be on the left side of the prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
+#+begin_src sh
+AGKOZAK_LEFT_PROMPT_ONLY=1
+#+end_src
+* Colored man pages without a plugin
+Here I have the man pages be colored without any plugins. I used to use [[https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh][the colored-man-pages plugin from oh-my-zsh]], but as I started looking into the oh-my-zsh codebase to see what I could safely discard or replace, I found [[https://github.com/ael-code/zsh-colored-man-pages/blob/master/colored-man-pages.plugin.zsh][this simpler implementation]], which I prefer, as it lacks unneccessary code and uses the more readable tput sequences over the more complicated printf ones. I thus took the code from that implementation and adapted the colors to my liking. Note that the resulting look will also depend on the used terminal emulator colorscheme.
+#+begin_src sh
+function man() {
+	env \
+		LESS_TERMCAP_md=$(tput bold; tput setaf 1) \
+		LESS_TERMCAP_me=$(tput sgr0) \
+		LESS_TERMCAP_mb=$(tput bold; tput setaf 2) \
+		LESS_TERMCAP_us=$(tput bold; tput setaf 2) \
+		LESS_TERMCAP_ue=$(tput rmul; tput sgr0) \
+		LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) \
+		LESS_TERMCAP_se=$(tput rmso; tput sgr0) \
+		PAGER="${commands[less]:-$PAGER}" \
+		man "$@"
+}
+#+end_src
+* Bindkey
+Let's just use emacs keybindings.
+#+begin_src sh
+bindkey -e
+#+end_src
+* Set the terminal title
+Oh-my-zsh used to set the terminal title in such a manner as to show ~username@hostname:directory~ on the titlebar of the terminal emulator, and just the directory in the tool bar of the OS, but without the framework only the title of the terminal emulator (e.g. ~Terminal~) is shown on both places - not very useful. I took a look at [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh][the code oh-my-zsh uses for this setting]] and found it too convoluted for me to use. Thankfully, [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh#L5][a link on the top of the file]] pointed me to the right direction. [[http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1][Here]] I found a much simpler function (which however has the title be the same on both the terminal emulator title bar and the OS tool bar, but oh well...), and adapted it to my needs, removing the username and the hostname (as I'm the only user on my computer and I don't connect to any remote machines).
+#+begin_src sh
+case $TERM in
+    xterm*)
+        precmd () {print -Pn "\e]0;%~\a"}
+        ;;
+esac
+#+end_src
+* Completion settings
+Enable completion
+#+begin_src sh
+autoload -Uz compinit
+compinit
+#+end_src
+Setting for menu selection in completion
+#+begin_src sh
+zstyle ':completion:*' menu select
+#+end_src
+List the completion matches in rows instead of columns.
+#+begin_src sh
+setopt list_rows_first
+#+end_src
+Enable LS_COLORS for the completion of files and directories.
+#+begin_src sh
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+#+end_src
+* Have arrow keys search history while typing a command
+A behavior that oh-my-zsh has that I wanted to keep was using the up and down arrow to find matches from the history for the command currently being typed e.g. presssing up/down after writing ~man~ will search in the history for commands beginning with man. I found the necessary config [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh#L30][here]].
+#+begin_src sh
+# start typing + [Up-Arrow] - fuzzy find history forward
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+# start typing + [Down-Arrow] - fuzzy find history backward
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
+#+end_src
+* Zsh options
+See ~man zshoptions~.\\
+Automatically cd when the target is a directory without having to precede the target with ~cd~.
+#+begin_src sh
+setopt auto_cd
+#+end_src
+Don't add a duplicate of the previous command into history.
+#+begin_src sh
+setopt histignoredups
+#+end_src
+Ignore the end of file sequence (ctrl-d).
+#+begin_src sh
+setopt ignoreeof
+#+end_src
+Autocorrect all wrong arguments.
+#+begin_src sh
+setopt correct_all
+#+end_src
+Make the autocorrect prompt fancier (from [[https://www.refining-linux.org/archives/39-ZSH-Gem-4-Spell-checking-and-auto-correction.html][Refining Linux: ZSH Gem #4: Spell checking and auto correction]]).
+#+begin_src sh
+autoload -U colors && colors
+export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r?$reset_color (Yes, No, Abort, Edit) "
+#+end_src
+* Aliases
+#+begin_src sh
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias ll='ls -lh'
+alias la='ls -lah'
+alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
+#+end_src
+* Settings for external programs
+** Enable true color for the micro text editor
+#+begin_src sh
+export MICRO_TRUECOLOR=1
+#+end_src
