@@ -70,7 +70,7 @@ unsetopt flowcontrol
 setopt correct_all
 
 autoload -U colors && colors
-export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r?$reset_color (Yes, No, Abort, Edit) "
+export SPROMPT="Correct $fg_bold[red]%R$reset_color to $fg_bold[green]%r?$reset_color ($fg_bold[green]Yes$reset_color, $fg_bold[yellow]No$reset_color, $fg_bold[red]Abort$reset_color, $fg_bold[blue]Edit$reset_color) "
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
