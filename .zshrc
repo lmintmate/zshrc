@@ -39,6 +39,10 @@ if [[ "${terminfo[kcud1]}" != "" ]]; then
   bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
 fi
 
+autoload -Uz history-beginning-search-menu-space-end history-beginning-search-menu
+zle -N history-beginning-search-menu-space-end history-beginning-search-menu
+bindkey "^H" history-beginning-search-menu-space-end
+
 case $TERM in
     xterm*)
         precmd () {print -Pn "\e]0;%~\a"}
