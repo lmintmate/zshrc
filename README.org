@@ -9,10 +9,10 @@
 - [[#history-file-settings][History file settings]]
 - [[#bootstrapping-the-prompt][Bootstrapping the prompt]]
 - [[#colored-man-pages-without-a-plugin][Colored man pages without a plugin]]
-- [[#bindkey][Bindkey]]
+- [[#keybindings][Keybindings]]
+  - [[#have-arrow-keys-search-history-while-typing-a-command][Have arrow keys search history while typing a command]]
 - [[#set-the-terminal-title][Set the terminal title]]
 - [[#completion-settings][Completion settings]]
-- [[#have-arrow-keys-search-history-while-typing-a-command][Have arrow keys search history while typing a command]]
 - [[#zsh-options][Zsh options]]
 - [[#aliases][Aliases]]
 - [[#settings-for-external-programs][Settings for external programs]]
@@ -63,10 +63,26 @@ function man() {
 		man "$@"
 }
 #+end_src
-* Bindkey
-Let's just use emacs keybindings, as I'm not the kind to want to have vim keybindings everywhere.
+* Keybindings
+Bindkey: Let's just use emacs keybindings, as I'm not the kind to want to have vim keybindings everywhere.
 #+begin_src sh
 bindkey -e
+#+end_src
+** Have arrow keys search history while typing a command
+A behavior that oh-my-zsh has that I wanted to keep was using the up and down arrow to find matches from the history for the command currently being typed e.g. presssing up/down after writing ~man~ will search in the history for commands beginning with man. I found the necessary config [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh#L30][here]].
+#+begin_src sh
+# start typing + [Up-Arrow] - fuzzy find history forward
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+# start typing + [Down-Arrow] - fuzzy find history backward
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
 #+end_src
 * Set the terminal title
 Oh-my-zsh used to set the terminal title in such a manner as to show ~username@hostname:directory~ on the titlebar of the terminal emulator, and just the directory in the tool bar of the OS, but without the framework only the title of the terminal emulator (e.g. ~Terminal~) is shown on both places - not very useful. I took a look at [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh][the code oh-my-zsh uses for this setting]] and found it too convoluted for me to use. Thankfully, [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh#L5][a link on the top of the file]] pointed me to the right direction. [[http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1][Here]] I found a much simpler function (which however has the title be the same on both the terminal emulator title bar and the OS tool bar, but oh well...), and adapted it to my needs, removing the username and the hostname (as I'm the only user on my computer and I don't connect to any remote machines).
@@ -95,22 +111,6 @@ Enable ~LS_COLORS~ for the completion of files and directories.
 #+begin_src sh
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 #+end_src
-* Have arrow keys search history while typing a command
-A behavior that oh-my-zsh has that I wanted to keep was using the up and down arrow to find matches from the history for the command currently being typed e.g. presssing up/down after writing ~man~ will search in the history for commands beginning with man. I found the necessary config [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh#L30][here]].
-#+begin_src sh
-# start typing + [Up-Arrow] - fuzzy find history forward
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
-#+end_src
 * Zsh options
 See ~man zshoptions~.\\
 Automatically cd when the target is a directory without having to precede the target with ~cd~.
@@ -124,6 +124,10 @@ setopt histignoredups
 Ignore the end of file sequence (ctrl-d).
 #+begin_src sh
 setopt ignoreeof
+#+end_src
+Prevent the forward history search shortcut (Ctrl-s) from being overtaken by the flow control (see [[http://zsh.sourceforge.net/Guide/zshguide04.html#l91][here]]).
+#+begin_src sh
+unsetopt flowcontrol
 #+end_src
 Autocorrect all wrong arguments.
 #+begin_src sh
