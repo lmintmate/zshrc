@@ -19,6 +19,7 @@
   - [[#autocorrection][Autocorrection]]
 - [[#aliases][Aliases]]
 - [[#settings-for-external-programs][Settings for external programs]]
+  - [[#setting-for-less][Setting for less]]
   - [[#enable-true-color-for-the-micro-text-editor][Enable true color for the micro text editor]]
 
 * Introduction
@@ -166,6 +167,11 @@ alias la='ls -lah'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 #+end_src
 * Settings for external programs
+** Setting for less
+After I uninstalled oh-my-zsh, I found out that the screen wasn't cleared anymore after quitting from the output of git-log, which was undesired, as I didn't want the output of git-log to remain printed on my terminal. Turns out that this was also [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/misc.zsh#L22][set by oh-my-zsh]], and since I had come to expect this behavior, I set up here the less pager (used by git by default) with the settings that oh-my-zsh had.
+#+begin_src sh
+export LESS=-R
+#+end_src
 ** Enable true color for the micro text editor
 #+begin_src sh
 export MICRO_TRUECOLOR=1
