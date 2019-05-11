@@ -16,6 +16,7 @@
 - [[#set-the-terminal-title][Set the terminal title]]
 - [[#completion-settings][Completion settings]]
 - [[#zsh-options][Zsh options]]
+  - [[#autocorrection][Autocorrection]]
 - [[#aliases][Aliases]]
 - [[#settings-for-external-programs][Settings for external programs]]
   - [[#enable-true-color-for-the-micro-text-editor][Enable true color for the micro text editor]]
@@ -128,6 +129,10 @@ Automatically cd when the target is a directory without having to precede the ta
 #+begin_src sh
 setopt auto_cd
 #+end_src
+Append commands to the history file as soon as they are executed.
+#+begin_src sh
+setopt inc_append_history
+#+end_src
 Don't add a duplicate of the previous command into history.
 #+begin_src sh
 setopt histignoredups
@@ -140,6 +145,7 @@ Prevent the forward history search shortcut (Ctrl-s) from being overtaken by the
 #+begin_src sh
 unsetopt flowcontrol
 #+end_src
+** Autocorrection
 Autocorrect all wrong arguments.
 #+begin_src sh
 setopt correct_all

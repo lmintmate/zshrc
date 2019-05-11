@@ -61,6 +61,8 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 setopt auto_cd
 
+setopt inc_append_history
+
 setopt histignoredups
 
 setopt ignoreeof
