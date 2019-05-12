@@ -116,6 +116,10 @@ List the completion matches in rows instead of columns.
 #+begin_src sh
 setopt list_rows_first
 #+end_src
+Setting so that when using a glob (e.g. *) it will show a menu for completion instead of putting all the filenames that satisfy the conditions of the glob on the command. Useful if I want to act on a file but don't exactly recall its name, and also if I wanted to act on all files of e.g. a specific filetype I wouldn't use tab to complete.
+#+begin_src sh
+setopt glob_complete
+#+end_src
 Enable ~LS_COLORS~ for the completion of files and directories.
 #+begin_src sh
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"

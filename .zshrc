@@ -52,6 +52,8 @@ zstyle ':completion:*' menu select
 
 setopt list_rows_first
 
+setopt glob_complete
+
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 setopt auto_cd
