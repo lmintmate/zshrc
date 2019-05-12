@@ -38,6 +38,8 @@ autoload -Uz history-beginning-search-menu-space-end history-beginning-search-me
 zle -N history-beginning-search-menu-space-end history-beginning-search-menu
 bindkey "^H" history-beginning-search-menu-space-end
 
+mkcd() { mkdir "$1"; cd "$1"; }
+
 case $TERM in
     xterm*)
         precmd () {print -Pn "\e]0;%~\a"}
