@@ -52,20 +52,16 @@ Regarding the settings of said prompt, I want the git info to be on the left sid
 AGKOZAK_LEFT_PROMPT_ONLY=1
 #+end_src
 * Colored man pages without a plugin
-Here I have the man pages be colored without any plugins. I used to use [[https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh][the colored-man-pages plugin from oh-my-zsh]], but as I started looking into the oh-my-zsh codebase to see what I could safely discard or replace, I found [[https://github.com/ael-code/zsh-colored-man-pages/blob/master/colored-man-pages.plugin.zsh][this simpler implementation]], which I prefer, as it lacks unneccessary code and uses the more readable tput sequences over the more complicated printf ones. I thus took the code from that implementation and adapted the colors to my liking. Note that the resulting look will also depend on the used terminal emulator colorscheme.
+Here I have the man pages be colored without any plugins. I used to use [[https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh][the colored-man-pages plugin from oh-my-zsh]], but as I started looking into the oh-my-zsh codebase to see what I could safely discard or replace, I found
+out that this didn't need a plugin nor any sort of complicated code to be configured, as all it takes is to write ~export LESS_TERMCAP_~ in the rc files (see [[https://russellparker.me/post/2018/02/23/adding-colors-to-man/][Russell Parker | Adding Colors to man]] and [[https://www.topbug.net/blog/2016/09/27/make-gnu-less-more-powerful/][Make the less Command More Powerful - Top Bug Net]]). Note that this draws the colors from the colors 1-8 of the used terminal emulator colorscheme, and thus the resulting look will depend on said colorscheme.
 #+begin_src sh
-function man() {
-	env \
-		LESS_TERMCAP_md=$(tput bold; tput setaf 1) \
-		LESS_TERMCAP_me=$(tput sgr0) \
-		LESS_TERMCAP_mb=$(tput bold; tput setaf 2) \
-		LESS_TERMCAP_us=$(tput bold; tput setaf 2) \
-		LESS_TERMCAP_ue=$(tput rmul; tput sgr0) \
-		LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) \
-		LESS_TERMCAP_se=$(tput rmso; tput sgr0) \
-		PAGER="${commands[less]:-$PAGER}" \
-		man "$@"
-}
+export LESS_TERMCAP_md=$(tput bold; tput setaf 1)
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2)
+export LESS_TERMCAP_us=$(tput bold; tput setaf 2)
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4)
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
 #+end_src
 * Keybindings
 Bindkey: Let's just use emacs keybindings, as I'm not the kind to want to have vim keybindings everywhere.
