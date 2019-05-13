@@ -70,7 +70,7 @@ Bindkey: Let's just use emacs keybindings, as I'm not the kind to want to have v
 bindkey -e
 #+end_src
 ** Have arrow keys search history while typing a command
-A behavior that oh-my-zsh has that I wanted to keep was using the up and down arrow to find matches from the history for the command currently being typed e.g. pressing up/down after writing ~man~ will search in the history for commands beginning with man. I found the necessary config [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh#L30][here]].
+A behavior that oh-my-zsh has that I wanted to keep was using the up and down arrow to find matches from the history for the command currently being typed e.g. pressing up/down after writing ~man z~ will search in the history for commands beginning with ~man~ and of which the first letter of second word was z. I found the necessary config [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh#L30][here]]. For the record, the functions ~up-line-or-beginning-search~ and ~down-line-or-beginning search~, which are enabled here, are, according to ~man zshcontrib~, similar to the builtin functions ~up-line-or-search~ and ~down-line-or-search~, but they search for a line which matches the current line up to the current cursor position, rather than the first word on the line.
 #+begin_src sh
 # start typing + [Up-Arrow] - fuzzy find history forward
 if [[ "${terminfo[kcuu1]}" != "" ]]; then
