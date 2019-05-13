@@ -13,6 +13,7 @@
   - [[#have-arrow-keys-search-history-while-typing-a-command][Have arrow keys search history while typing a command]]
 - [[#functions][Functions]]
   - [[#history-beginning-search-menu][history-beginning-search-menu]]
+  - [[#edit-command-line][edit-command-line]]
   - [[#custom-functions][Custom functions]]
 - [[#set-the-terminal-title][Set the terminal title]]
 - [[#completion-settings][Completion settings]]
@@ -92,6 +93,13 @@ I found via ~man zshcontrib~ about the existence of many functions that come wit
 autoload -Uz history-beginning-search-menu-space-end history-beginning-search-menu
 zle -N history-beginning-search-menu-space-end history-beginning-search-menu
 bindkey "^H" history-beginning-search-menu-space-end
+#+end_src
+** edit-command-line
+Another function I found via ~man zshcontrib~ is ~edit-command-line~. This function edits the current command line using the visual editor, which seems rather useful, as when I want to compose long commands, I often write them on the text editor and then paste them on the command line. This helps in that after saving the changes and quitting from the temp file presented, the just written command appears in the command line, ready to be executed, no selecting and copying/pasting required. This function needs to be bound to a key, and I decided to bind it to Ctrl-x Ctrl-e, as I already have this in my muscle memory, since this is the keybinding I use to execute lisp code in the ~*scratch*~ buffer in emacs.
+#+begin_src sh
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
 #+end_src
 ** Custom functions
 Custom function to create a directory and cd into it immediately (found from [[https://github.com/yochem/dotfiles/blob/master/.config/bash/functions#L67][here]])

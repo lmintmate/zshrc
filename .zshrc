@@ -38,6 +38,10 @@ autoload -Uz history-beginning-search-menu-space-end history-beginning-search-me
 zle -N history-beginning-search-menu-space-end history-beginning-search-menu
 bindkey "^H" history-beginning-search-menu-space-end
 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 mkcd() { mkdir "$1"; cd "$1"; }
 
 case $TERM in
