@@ -21,6 +21,9 @@ export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
 
 bindkey -e
 
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 # start typing + [Up-Arrow] - fuzzy find history forward
 if [[ "${terminfo[kcuu1]}" != "" ]]; then
   autoload -U up-line-or-beginning-search
