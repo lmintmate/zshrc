@@ -88,6 +88,8 @@ alias ll='ls -lh'
 alias la='ls -lah'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 
+alias \$=''
+
 export LESS=-R
 
 export MICRO_TRUECOLOR=1

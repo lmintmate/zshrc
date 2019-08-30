@@ -178,6 +178,7 @@ autoload -U colors && colors
 export SPROMPT="Correct $fg_bold[red]%R$reset_color to $fg_bold[green]%r?$reset_color ($fg_bold[green]Yes$reset_color, $fg_bold[yellow]No$reset_color, $fg_bold[red]Abort$reset_color, $fg_bold[blue]Edit$reset_color) "
 #+end_src
 * Aliases
+Mainly aliases for variants of ls and grep, but also one to have quick access to my own preferences on tty-clock.
 #+begin_src sh
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -186,6 +187,10 @@ alias egrep='egrep --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
+#+end_src
+Also alias the dollar sign so that it is ignored if it is in the beginning of a command, something that would happen most likely by mistake (idea from [[https://github.com/zpm-zsh/undollar][here]]).
+#+begin_src sh
+alias \$=''
 #+end_src
 * Settings for external programs
 ** Setting for less
