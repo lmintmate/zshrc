@@ -3,13 +3,29 @@ HISTSIZE=50000
 SAVEHIST=10000
 
 #autoinstall the agkozak zsh prompt
-if [[ ! -d ~/agkozak-zsh-prompt ]]; then
-  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/agkozak-zsh-prompt
+if [[ ! -d ~/zsh-plugins/agkozak-zsh-prompt ]]; then
+  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/zsh-plugins/agkozak-zsh-prompt
 fi
 #source it
-source ~/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
+source ~/zsh-plugins/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
+
+#autoinstall zsh-auto-notify
+if [[ ! -d ~/zsh-plugins/zsh-auto-notify ]]; then
+  git clone https://github.com/MichaelAquilina/zsh-auto-notify ~/zsh-plugins/zsh-auto-notify
+fi
+#source it
+source ~/zsh-plugins/zsh-auto-notify/auto-notify.plugin.zsh
+
+#autoinstall zsh-you-should-use
+if [[ ! -d ~/zsh-plugins/zsh-you-should-use ]]; then
+  git clone https://github.com/MichaelAquilina/zsh-you-should-use ~/zsh-plugins/zsh-you-should-use
+fi
+#source it
+source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+
+export YSU_MESSAGE_POSITION="after"
 
 export LESS_TERMCAP_md=$(tput bold; tput setaf 1)
 export LESS_TERMCAP_me=$(tput sgr0)

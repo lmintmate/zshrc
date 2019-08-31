@@ -8,6 +8,7 @@
   - [[#how-the-magic-is-done][How the magic is done]]
 - [[#history-file-settings][History file settings]]
 - [[#bootstrapping-the-prompt][Bootstrapping the prompt]]
+- [[#other-self-managed-plugins][Other self-managed plugins]]
 - [[#colored-man-pages-without-a-plugin][Colored man pages without a plugin]]
 - [[#keybindings][Keybindings]]
   - [[#bind-ctrl-leftright-to-move-back-and-forward-word][Bind ctrl-left/right to move back and forward word]]
@@ -44,15 +45,37 @@ SAVEHIST=10000
 I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]]. Here I have a conditional (the code of which is adapted from [[https://github.com/zplug/zplug/wiki/Configurations#examples][here]]) that detects if the directory in which the code of said prompt resides exists and, if not, clones the github repo (note that this obviously requires git). Immediately afterwards the prompt is sourced.
 #+begin_src sh
 #autoinstall the agkozak zsh prompt
-if [[ ! -d ~/agkozak-zsh-prompt ]]; then
-  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/agkozak-zsh-prompt
+if [[ ! -d ~/zsh-plugins/agkozak-zsh-prompt ]]; then
+  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/zsh-plugins/agkozak-zsh-prompt
 fi
 #source it
-source ~/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
+source ~/zsh-plugins/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
 #+end_src
 Regarding the settings of said prompt, I want the git info to be on the left side of the prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
 #+begin_src sh
 AGKOZAK_LEFT_PROMPT_ONLY=1
+#+end_src
+* Other self-managed plugins
+Also install and source [[https://github.com/MichaelAquilina/zsh-auto-notify][zsh-auto-notify]] and [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-should-use]].
+TODO: Perhaps use zplug to manage all these plugins.
+#+begin_src sh
+#autoinstall zsh-auto-notify
+if [[ ! -d ~/zsh-plugins/zsh-auto-notify ]]; then
+  git clone https://github.com/MichaelAquilina/zsh-auto-notify ~/zsh-plugins/zsh-auto-notify
+fi
+#source it
+source ~/zsh-plugins/zsh-auto-notify/auto-notify.plugin.zsh
+
+#autoinstall zsh-you-should-use
+if [[ ! -d ~/zsh-plugins/zsh-you-should-use ]]; then
+  git clone https://github.com/MichaelAquilina/zsh-you-should-use ~/zsh-plugins/zsh-you-should-use
+fi
+#source it
+source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+#+end_src
+Set the message of ~zsh-you-should-use~ to appear after the execution of the command.
+#+begin_src sh
+export YSU_MESSAGE_POSITION="after"
 #+end_src
 * Colored man pages without a plugin
 Here I have the man pages be colored without any plugins. I used to use [[https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh][the colored-man-pages plugin from oh-my-zsh]], but as I started looking into the oh-my-zsh codebase to see what I could safely discard or replace, I found
