@@ -7,9 +7,10 @@
 - [[#introduction][Introduction]]
   - [[#how-the-magic-is-done][How the magic is done]]
 - [[#history-file-settings][History file settings]]
-- [[#bootstrapping-the-prompt][Bootstrapping the prompt]]
-- [[#other-self-managed-plugins][Other self-managed plugins]]
-- [[#colored-man-pages-without-a-plugin][Colored man pages without a plugin]]
+- [[#plugins-and-plugin-settings][Plugins and plugin settings]]
+  - [[#bootstrap-the-plugin-manager-zplug][Bootstrap the plugin manager, zplug]]
+  - [[#plugin-settings][Plugin settings]]
+- [[#setting-for-colored-man-pages][Setting for colored man pages]]
 - [[#keybindings][Keybindings]]
   - [[#bind-ctrl-leftright-to-move-back-and-forward-word][Bind ctrl-left/right to move back and forward word]]
   - [[#have-arrow-keys-search-history-while-typing-a-command][Have arrow keys search history while typing a command]]
@@ -41,43 +42,63 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 #+end_src
-* Bootstrapping the prompt
-I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]]. Here I have a conditional (the code of which is adapted from [[https://github.com/zplug/zplug/wiki/Configurations#examples][here]]) that detects if the directory in which the code of said prompt resides exists and, if not, clones the github repo (note that this obviously requires git). Immediately afterwards the prompt is sourced.
+* Plugins and plugin settings
+** Bootstrap the plugin manager, zplug
+I decided to use a plugin manager after all, since I started using more than one plugins. I decided to use [[https://github.com/zplug/zplug][zplug]], since it seems to me as the simplest to use overall.\\
+First download and source zplug itself.
 #+begin_src sh
-#autoinstall the agkozak zsh prompt
-if [[ ! -d ~/zsh-plugins/agkozak-zsh-prompt ]]; then
-  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/zsh-plugins/agkozak-zsh-prompt
+if [[ ! -d ~/.zplug ]];then
+    git clone https://github.com/zplug/zplug ~/.zplug
 fi
-#source it
-source ~/zsh-plugins/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
+source ~/.zplug/init.zsh
 #+end_src
-Regarding the settings of said prompt, I want the git info to be on the left side of the prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
+Self-manage zplug.
+#+begin_src sh
+zplug "zplug/zplug", hook-build:"zplug --self-manage"
+#+end_src
+Now add the plugins.\\
+I didn't feel like rolling my own prompt, so I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]], which is really close to what I would have made anyways.
+#+begin_src sh
+zplug "agkozak/agkozak-zsh-prompt"
+#+end_src
+I also install [[https://github.com/MichaelAquilina/zsh-auto-notify][zsh-auto-notify]]. This notifies when a process is over via the system notifications, so that I don't have to look over to the terminal window all the time.
+#+begin_src sh
+zplug "MichaelAquilina/zsh-auto-notify"
+#+end_src
+I also install [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-should-use]]. This plugin lets me know if there any aliases for the commands I typed in their full form.
+#+begin_src sh
+zplug "MichaelAquilina/zsh-you-should-use"
+#+end_src
+Install any packages that haven't been installed yet.
+#+begin_src sh
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+#+end_src
+Finally load zplug.
+#+begin_src sh
+zplug load
+#+end_src
+** Plugin settings
+Put the git info on the left side of the agkozak zsh prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
 #+begin_src sh
 AGKOZAK_LEFT_PROMPT_ONLY=1
 #+end_src
-* Other self-managed plugins
-Also install and source [[https://github.com/MichaelAquilina/zsh-auto-notify][zsh-auto-notify]] and [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-should-use]].
-TODO: Perhaps use zplug to manage all these plugins.
+In regards to ~zsh-auto-notify~, don't show notifications for the text editor micro and the music player mocp, since it's normal that these run for more than 10 seconds.
 #+begin_src sh
-#autoinstall zsh-auto-notify
-if [[ ! -d ~/zsh-plugins/zsh-auto-notify ]]; then
-  git clone https://github.com/MichaelAquilina/zsh-auto-notify ~/zsh-plugins/zsh-auto-notify
-fi
-#source it
-source ~/zsh-plugins/zsh-auto-notify/auto-notify.plugin.zsh
-
-#autoinstall zsh-you-should-use
-if [[ ! -d ~/zsh-plugins/zsh-you-should-use ]]; then
-  git clone https://github.com/MichaelAquilina/zsh-you-should-use ~/zsh-plugins/zsh-you-should-use
-fi
-#source it
-source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+AUTO_NOTIFY_IGNORE+=("micro")
+AUTO_NOTIFY_IGNORE+=("mocp")
 #+end_src
 Set the message of ~zsh-you-should-use~ to appear after the execution of the command.
 #+begin_src sh
 export YSU_MESSAGE_POSITION="after"
 #+end_src
-* Colored man pages without a plugin
+* Setting for colored man pages
 Here I have the man pages be colored without any plugins. I used to use [[https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh][the colored-man-pages plugin from oh-my-zsh]], but as I started looking into the oh-my-zsh codebase to see what I could safely discard or replace, I found
 out that this didn't need a plugin nor any sort of complicated code to be configured, as all it takes is to write ~export LESS_TERMCAP_~ in the rc files (see [[https://russellparker.me/post/2018/02/23/adding-colors-to-man/][Russell Parker | Adding Colors to man]] and [[https://www.topbug.net/blog/2016/09/27/make-gnu-less-more-powerful/][Make the less Command More Powerful - Top Bug Net]]). Note that this draws the colors from the colors 1-8 of the used terminal emulator colorscheme, and thus the resulting look will depend on said colorscheme.
 #+begin_src sh
@@ -132,7 +153,7 @@ zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 #+end_src
 ** Custom functions
-Custom function to create a directory and cd into it immediately (found from [[https://github.com/yochem/dotfiles/blob/master/.config/bash/functions#L67][here]])
+Custom function to create a directory and cd into it immediately (found from [[https://github.com/yochem/dotfiles/blob/722bf6ca63bfb43c98586d32e203afa37a6bb29c/.config/bash/functions#L11][here]])
 #+begin_src sh
 mkcd() { mkdir "$1"; cd "$1"; }
 #+end_src

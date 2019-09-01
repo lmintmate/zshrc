@@ -2,28 +2,34 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 
-#autoinstall the agkozak zsh prompt
-if [[ ! -d ~/zsh-plugins/agkozak-zsh-prompt ]]; then
-  git clone https://github.com/agkozak/agkozak-zsh-prompt ~/zsh-plugins/agkozak-zsh-prompt
+if [[ ! -d ~/.zplug ]];then
+    git clone https://github.com/zplug/zplug ~/.zplug
 fi
-#source it
-source ~/zsh-plugins/agkozak-zsh-prompt/agkozak-zsh-prompt.plugin.zsh
+source ~/.zplug/init.zsh
+
+zplug "zplug/zplug", hook-build:"zplug --self-manage"
+
+zplug "agkozak/agkozak-zsh-prompt"
+
+zplug "MichaelAquilina/zsh-auto-notify"
+
+zplug "MichaelAquilina/zsh-you-should-use"
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+
+zplug load
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
-#autoinstall zsh-auto-notify
-if [[ ! -d ~/zsh-plugins/zsh-auto-notify ]]; then
-  git clone https://github.com/MichaelAquilina/zsh-auto-notify ~/zsh-plugins/zsh-auto-notify
-fi
-#source it
-source ~/zsh-plugins/zsh-auto-notify/auto-notify.plugin.zsh
-
-#autoinstall zsh-you-should-use
-if [[ ! -d ~/zsh-plugins/zsh-you-should-use ]]; then
-  git clone https://github.com/MichaelAquilina/zsh-you-should-use ~/zsh-plugins/zsh-you-should-use
-fi
-#source it
-source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+AUTO_NOTIFY_IGNORE+=("micro")
+AUTO_NOTIFY_IGNORE+=("mocp")
 
 export YSU_MESSAGE_POSITION="after"
 
