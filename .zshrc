@@ -2,29 +2,17 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 
-if [[ ! -d ~/.zplug ]];then
-    git clone https://github.com/zplug/zplug ~/.zplug
+if [[ ! -d ~/.zplugin ]];then
+mkdir ~/.zplugin
+git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
 fi
-source ~/.zplug/init.zsh
+source ~/.zplugin/bin/zplugin.zsh
 
-zplug "zplug/zplug", hook-build:"zplug --self-manage"
+zplugin light agkozak/agkozak-zsh-prompt
 
-zplug "agkozak/agkozak-zsh-prompt"
+zplugin light MichaelAquilina/zsh-auto-notify
 
-zplug "MichaelAquilina/zsh-auto-notify"
-
-zplug "MichaelAquilina/zsh-you-should-use"
-
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
-    fi
-fi
-
-zplug load
+zplugin light MichaelAquilina/zsh-you-should-use
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
