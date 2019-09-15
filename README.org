@@ -6,6 +6,7 @@
 * Table of Contents                                                   :TOC_3:
 - [[#introduction][Introduction]]
   - [[#how-the-magic-is-done][How the magic is done]]
+- [[#preliminaries][Preliminaries]]
 - [[#history-file-settings][History file settings]]
 - [[#plugins-and-plugin-settings][Plugins and plugin settings]]
   - [[#bootstrap-the-plugin-manager-zplugin][Bootstrap the plugin manager, zplugin]]
@@ -35,6 +36,12 @@ I put in the beginning of this org file the string
 #+property: header-args :tangle .zshrc
 #+end_example
 which tells the src blocks to get tangled (= exported) to a file called .zshrc, so that zsh will be able to see it. For the src blocks themselves, I'm using ~begin_src sh~ as this gets syntax highlighting on both emacs itself and Github.
+* Preliminaries
+First disable the compinit taking place in the global ~/etc/zsh/zshrc~ on Ubuntu and its derivatives, since that makes the first initialisation of the terminal a lot slower (recommended from [[https://github.com/zdharma/zplugin#disabling-system-wide-compinit-call-ubuntu][here]]). This must be placed in ~.zshenv~.
+#+begin_example
+# Skip the not really helping Ubuntu global compinit
+skip_global_compinit=1
+#+end_example
 * History file settings
 The history file is necessary, as this is what's used for reverse history search. I named it ~.zsh_history~ instead of the default ~.histfile~ and increased the number of entries to save [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/history.zsh#L30][according to their setting on oh-my-zsh]].
 #+begin_src sh
@@ -44,7 +51,7 @@ SAVEHIST=10000
 #+end_src
 * Plugins and plugin settings
 ** Bootstrap the plugin manager, zplugin
-I decided to use a plugin manager after all, since I started using more than one plugins. I first decided to use [[https://github.com/zplug/zplug][zplug]], since it seemed to me as the simplest to use overall, but it was slower than even Oh-my-zsh (one time I counted, and it took half a minute with only 3 plugins!). I then decided to use [[https://github.com/zdharma/zplugin][zplugin]] instead, since it was faster, even though I'm not going to use the vast majority of its features.\\
+I decided to use a plugin manager after all, since I started using more than one plugins. I first decided to use [[https://github.com/zplug/zplug][zplug]], since it seemed to me as the simplest to use overall, but then switched to [[https://github.com/zdharma/zplugin][zplugin]] instead, because I mistakenly thought zplug was way slower (as the first initialisation after startup took half a minute!), and turns out this was the fault of the global zshrc file starting an additional compinit (something that was probably fixed on oh-my-zsh, since I hadn't noticed anything like this when I was using that). Since I made the switch however, I might as well stay with zplugin, even though I don't use enough plugins to be able to feel the speed difference compared to zplug, and even though I'm not going to use the vast majority of its features.\\
 First download and source zplugin itself. Note:
 #+begin_example
 After installing and reloading the shell compile Zplugin with zplugin self-update.
