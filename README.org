@@ -224,9 +224,10 @@ alias ll='ls -lh'
 alias la='ls -lah'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 #+end_src
-Also alias the dollar sign so that it is ignored if it is in the beginning of a command, something that would happen most likely by mistake (idea from [[https://github.com/zpm-zsh/undollar][here]]).
+Also alias the dollar sign and zsh's percent sign so that they are ignored if they are in the beginning of a command, something that would happen most likely by mistake e.g. copying a command from the internet (idea from [[https://github.com/zpm-zsh/undollar][here]] and [[http://zsh.sourceforge.net/Guide/zshguide01.html#l4][here]]).
 #+begin_src sh
 alias \$=''
+alias \%=''
 #+end_src
 * Settings for external programs
 ** Setting for less
