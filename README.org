@@ -229,7 +229,7 @@ autoload -U colors && colors
 export SPROMPT="Correct $fg_bold[red]%R$reset_color to $fg_bold[green]%r?$reset_color ($fg_bold[green]Yes$reset_color, $fg_bold[yellow]No$reset_color, $fg_bold[red]Abort$reset_color, $fg_bold[blue]Edit$reset_color) "
 #+end_src
 * Aliases
-Mainly aliases for variants of ls and grep, but also one to have quick access to my own preferences on tty-clock.
+Here are aliases for variants of ls and grep, git status and zplugin commands, but also one to have quick access to my own preferences on tty-clock.
 #+begin_src sh
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -237,6 +237,8 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
+alias gs='git status'
+alias zstatus='zplugin zstatus'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 #+end_src
 Also alias the dollar sign and zsh's percent sign so that they are ignored if they are in the beginning of a command, something that would happen most likely by mistake e.g. copying a command from the internet (idea from [[https://github.com/zpm-zsh/undollar][here]] and [[http://zsh.sourceforge.net/Guide/zshguide01.html#l4][here]]).
