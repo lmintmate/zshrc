@@ -14,6 +14,12 @@ zplugin light MichaelAquilina/zsh-auto-notify
 
 zplugin light MichaelAquilina/zsh-you-should-use
 
+zplugin ice as"completion"
+zplugin snippet https://github.com/zsh-users/zsh-completions/blob/master/src/_nano
+
+zplugin ice as"completion"
+zplugin snippet https://github.com/jarun/nnn/blob/master/misc/auto-completion/zsh/_nnn
+
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
 AUTO_NOTIFY_IGNORE+=("micro")

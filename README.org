@@ -8,8 +8,10 @@
   - [[#how-the-magic-is-done][How the magic is done]]
 - [[#preliminaries][Preliminaries]]
 - [[#history-file-settings][History file settings]]
-- [[#plugins-and-plugin-settings][Plugins and plugin settings]]
+- [[#pluginscompletions-and-plugin-settings][Plugins,completions and plugin settings]]
   - [[#bootstrap-the-plugin-manager-zplugin][Bootstrap the plugin manager, zplugin]]
+    - [[#plugins][Plugins]]
+    - [[#completions][Completions]]
   - [[#plugin-settings][Plugin settings]]
 - [[#setting-for-colored-man-pages][Setting for colored man pages]]
 - [[#keybindings][Keybindings]]
@@ -49,7 +51,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 #+end_src
-* Plugins and plugin settings
+* Plugins,completions and plugin settings
 ** Bootstrap the plugin manager, zplugin
 I decided to use a plugin manager after all, since I started using more than one plugins. I first decided to use [[https://github.com/zplug/zplug][zplug]], since it seemed to me as the simplest to use overall, but then switched to [[https://github.com/zdharma/zplugin][zplugin]] instead, because I mistakenly thought zplug was way slower (as the first initialisation after startup took half a minute!), and turns out this was the fault of the global zshrc file starting an additional compinit (something that was probably fixed on oh-my-zsh, since I hadn't noticed anything like this when I was using that). Since I made the switch however, I might as well stay with zplugin, even though I don't use enough plugins to be able to feel the speed difference compared to zplug, and even though I'm not going to use the vast majority of its features.\\
 First download and source zplugin itself. Note:
@@ -63,6 +65,7 @@ git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
 fi
 source ~/.zplugin/bin/zplugin.zsh
 #+end_src
+*** Plugins
 Now add the plugins. I'm loading them with ~light~, because I don't really care about the extra features ~load~ provides.\\
 I didn't feel like rolling my own prompt, so I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]], which is really close to what I would have made anyways.
 #+begin_src sh
@@ -75,6 +78,18 @@ zplugin light MichaelAquilina/zsh-auto-notify
 I also install [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-should-use]]. This plugin lets me know if there any aliases for the commands I typed in their full form.
 #+begin_src sh
 zplugin light MichaelAquilina/zsh-you-should-use
+#+end_src
+*** Completions
+A good thing about zplugin is that it can load snippets (that is, single files), and can load plugins as programs, completions e.t.c. Here I individually load completions for programs I use as snippets.\\
+First I load a snippet that adds completion for nano switches. This actually comes from the [[https://github.com/zsh-users/zsh-completions][zsh-completions]] plugin, but I don't need the rest of the completions it offers.
+#+begin_src sh
+zplugin ice as"completion"
+zplugin snippet https://github.com/zsh-users/zsh-completions/blob/master/src/_nano
+#+end_src
+Here I load the snippet that offers completion for [[https://github.com/jarun/nnn][nnn]] switches, [[https://github.com/jarun/nnn/tree/master/misc/auto-completion][included in its repository]], with versions for bash, zsh and fish.
+#+begin_src sh
+zplugin ice as"completion"
+zplugin snippet https://github.com/jarun/nnn/blob/master/misc/auto-completion/zsh/_nnn
 #+end_src
 ** Plugin settings
 Put the git info on the left side of the agkozak zsh prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
