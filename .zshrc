@@ -63,6 +63,21 @@ bindkey "^X^E" edit-command-line
 
 mkcd() { mkdir "$1"; cd "$1"; }
 
+x-kill-whole-line () {
+  zle kill-whole-line
+  print -rn $CUTBUFFER | xsel -i -b
+}
+zle -N x-kill-whole-line
+
+x-yank () {
+  CUTBUFFER=$(xsel -o -b </dev/null)
+  zle yank
+}
+zle -N x-yank
+
+bindkey -e '^U' x-kill-whole-line
+bindkey -e '^Y' x-yank
+
 case $TERM in
     xterm*)
         precmd () {print -Pn "\e]0;%~\a"}
