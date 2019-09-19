@@ -11,7 +11,6 @@
 - [[#pluginscompletions-and-plugin-settings][Plugins,completions and plugin settings]]
   - [[#bootstrap-the-plugin-manager-zplugin][Bootstrap the plugin manager, zplugin]]
     - [[#plugins][Plugins]]
-    - [[#completions][Completions]]
   - [[#plugin-settings][Plugin settings]]
 - [[#setting-for-colored-man-pages][Setting for colored man pages]]
 - [[#keybindings][Keybindings]]
@@ -79,17 +78,9 @@ I also install [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-
 #+begin_src sh
 zplugin light MichaelAquilina/zsh-you-should-use
 #+end_src
-*** Completions
-A good thing about zplugin is that it can load snippets (that is, single files), and can load plugins as programs, completions e.t.c. Here I individually load completions for programs I use as snippets.\\
-First I load a snippet that adds completion for nano switches. This actually comes from the [[https://github.com/zsh-users/zsh-completions][zsh-completions]] plugin, but I don't need the rest of the completions it offers.
+I also install [[https://github.com/RobSis/zsh-completion-generator][zsh-completion-generator]]. This plugin generates completions for various programs from their help texts, which is useful when completions aren't otherwise included, and any potential completion file available online might not be up-to-date with newly added switches. I'm currently using it for nano and nnn. Note that I couldn't get the zstyle command provided in the readme to work, so I have to remember to run after the installation the command ~gencomp~ with the name of each desired program e.g. ~gencomp nano~ and ~gencomp nnn~.
 #+begin_src sh
-zplugin ice as"completion"
-zplugin snippet https://github.com/zsh-users/zsh-completions/blob/master/src/_nano
-#+end_src
-Here I load the snippet that offers completion for [[https://github.com/jarun/nnn][nnn]] switches, [[https://github.com/jarun/nnn/tree/master/misc/auto-completion][included in its repository]], with versions for bash, zsh and fish.
-#+begin_src sh
-zplugin ice as"completion"
-zplugin snippet https://github.com/jarun/nnn/blob/master/misc/auto-completion/zsh/_nnn
+zplugin light RobSis/zsh-completion-generator
 #+end_src
 ** Plugin settings
 Put the git info on the left side of the agkozak zsh prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
