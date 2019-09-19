@@ -181,6 +181,17 @@ zle -N x-yank
 bindkey -e '^U' x-kill-whole-line
 bindkey -e '^Y' x-yank
 #+end_src
+Function to get output from the last command to use for the current command. Found from [[https://github.com/rothgar/mastering-zsh/blob/master/docs/helpers/widgets.md#get-output-from-last-command-with-ctrlqctrll][here]] and bound to ~C-q~.
+#+begin_src sh
+zmodload -i zsh/parameter
+
+insert-last-command-output() {
+  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
+}
+zle -N insert-last-command-output
+
+bindkey "^Q" insert-last-command-output
+#+end_src
 * Set the terminal title
 Oh-my-zsh used to set the terminal title in such a manner as to show ~username@hostname:directory~ on the titlebar of the terminal emulator, and just the directory in the tool bar of the OS, but without the framework only the title of the terminal emulator (e.g. ~Terminal~) is shown on both places - not very useful. I took a look at [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh][the code oh-my-zsh uses for this setting]] and found it too convoluted for me to use. Thankfully, [[https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh#L5][a link on the top of the file]] pointed me to the right direction. [[http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1][Here]] I found a much simpler function (which however has the title be the same on both the terminal emulator title bar and the OS tool bar, but oh well...), and adapted it to my needs, removing the username and the hostname (as I'm the only user on my computer and I don't connect to any remote machines). I also recall that oh-my-zsh also showed the name of the currently running command, when this was the case, and found [[https://www.davidpashley.com/articles/xterm-titles-with-bash/][here]] how to implement this natively. So currently when a command is running, the title of the terminal emulator and the OS toolbar show its name, otherwise they show the name of the current directory.
 #+begin_src sh

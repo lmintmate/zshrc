@@ -78,6 +78,15 @@ zle -N x-yank
 bindkey -e '^U' x-kill-whole-line
 bindkey -e '^Y' x-yank
 
+zmodload -i zsh/parameter
+
+insert-last-command-output() {
+  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
+}
+zle -N insert-last-command-output
+
+bindkey "^Q" insert-last-command-output
+
 case $TERM in
     xterm*)
         precmd () {print -Pn "\e]0;%~\a"}
