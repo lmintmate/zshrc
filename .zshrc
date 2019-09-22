@@ -11,6 +11,15 @@ source ~/.zplugin/bin/zplugin.zsh
 zplugin light zdharma/zui
 zplugin light zdharma/zplugin-crasis
 
+zplugin ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
+zplugin light molovo/color
+
+zplugin ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
+zplugin light molovo/revolver
+
+zplugin ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
+zplugin light molovo/zvm
+
 zplugin light psprint/zsh-cmd-architect
 
 zplugin light agkozak/agkozak-zsh-prompt

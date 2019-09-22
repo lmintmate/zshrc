@@ -12,6 +12,7 @@
   - [[#bootstrap-the-plugin-manager-itself][Bootstrap the plugin manager itself]]
   - [[#plugins][Plugins]]
     - [[#crasis-semigraphical-zplugin-manager][Crasis (semigraphical zplugin manager)]]
+    - [[#zvm-zsh-version-manager][Zvm (zsh version manager)]]
     - [[#zsh-command-architect-semigraphical-command-builder][Zsh command architect (semigraphical command builder)]]
     - [[#agkozak-zsh-prompt][Agkozak zsh prompt]]
     - [[#zsh-auto-notify-integrate-zsh-with-system-notifications][zsh-auto-notify (integrate zsh with system notifications)]]
@@ -77,6 +78,18 @@ First add [[https://github.com/zdharma/zplugin-crasis][zplugin-crasis]], which i
 #+begin_src sh
 zplugin light zdharma/zui
 zplugin light zdharma/zplugin-crasis
+#+end_src
+*** Zvm (zsh version manager)
+Through zplugin I also install [[https://github.com/molovo/zvm][ZVM]], which is a tool that allows to install and manage additional zsh versions, something useful when the system zsh version is on the older side. This has as dependencies a couple other programs from the same dev, [[https://github.com/molovo/color][color]] (a coloring strings utility) and [[https://github.com/molovo/revolver][revolver]] (a progress spinner utility). I thus install here each dependency, renaming various components in order to be properly detected by zplugin, and finally install zvm itself, also renaming and additionally sourcing components.
+#+begin_src sh
+zplugin ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
+zplugin light molovo/color
+
+zplugin ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
+zplugin light molovo/revolver
+
+zplugin ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
+zplugin light molovo/zvm
 #+end_src
 *** Zsh command architect (semigraphical command builder)
 I also add [[https://github.com/psprint/zsh-cmd-architect][zsh-cmd-architect]], which provides a semigraphical interface for building commands to execute. It is launched with ~C-t~.
