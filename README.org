@@ -66,6 +66,11 @@ source ~/.zplugin/bin/zplugin.zsh
 #+end_src
 *** Plugins
 Now add the plugins. I'm loading them with ~light~, because I don't really care about the extra features ~load~ provides.\\
+First add [[https://github.com/zdharma/zplugin-crasis][zplugin-crasis]], which is an ncurses-style manager for zplugin plugins. With it one can easily add, enable/disable or remove plugins without having to edit the .zshrc file directly.
+#+begin_src sh
+zplugin light zdharma/zui
+zplugin light zdharma/zplugin-crasis
+#+end_src
 I didn't feel like rolling my own prompt, so I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]], which is really close to what I would have made anyways.
 #+begin_src sh
 zplugin light agkozak/agkozak-zsh-prompt

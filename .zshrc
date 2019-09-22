@@ -8,6 +8,9 @@ git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
 fi
 source ~/.zplugin/bin/zplugin.zsh
 
+zplugin light zdharma/zui
+zplugin light zdharma/zplugin-crasis
+
 zplugin light agkozak/agkozak-zsh-prompt
 
 zplugin light MichaelAquilina/zsh-auto-notify
