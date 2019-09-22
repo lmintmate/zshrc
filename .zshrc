@@ -32,6 +32,7 @@ zplugin light RobSis/zsh-completion-generator
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
+AUTO_NOTIFY_IGNORE+=("crasis")
 AUTO_NOTIFY_IGNORE+=("micro")
 AUTO_NOTIFY_IGNORE+=("mocp")
 

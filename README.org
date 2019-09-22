@@ -121,8 +121,9 @@ Put the git info on the left side of the agkozak zsh prompt (see [[https://githu
 #+begin_src sh
 AGKOZAK_LEFT_PROMPT_ONLY=1
 #+end_src
-In regards to ~zsh-auto-notify~, don't show notifications for the text editor micro and the music player mocp, since it's normal that these run for more than 10 seconds.
+In regards to ~zsh-auto-notify~, don't show notifications for the zplugin manager crasis, the text editor micro and the music player mocp, since it's normal that these run for more than 10 seconds.
 #+begin_src sh
+AUTO_NOTIFY_IGNORE+=("crasis")
 AUTO_NOTIFY_IGNORE+=("micro")
 AUTO_NOTIFY_IGNORE+=("mocp")
 #+end_src
