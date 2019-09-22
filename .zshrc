@@ -11,6 +11,8 @@ source ~/.zplugin/bin/zplugin.zsh
 zplugin light zdharma/zui
 zplugin light zdharma/zplugin-crasis
 
+zplugin light psprint/zsh-cmd-architect
+
 zplugin light agkozak/agkozak-zsh-prompt
 
 zplugin light MichaelAquilina/zsh-auto-notify
