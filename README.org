@@ -8,7 +8,7 @@
   - [[#how-the-magic-is-done][How the magic is done]]
 - [[#preliminaries][Preliminaries]]
 - [[#history-file-settings][History file settings]]
-- [[#zsh-plugins-with-zplugin][Zsh plugins with zplugin]]
+- [[#zsh-plugins-with-zinit][Zsh plugins with zinit]]
   - [[#bootstrap-the-plugin-manager-itself][Bootstrap the plugin manager itself]]
   - [[#plugins][Plugins]]
     - [[#zvm-zsh-version-manager][Zvm (zsh version manager)]]
@@ -44,7 +44,7 @@ I put in the beginning of this org file the string
 #+end_example
 which tells the src blocks to get tangled (= exported) to a file called .zshrc, so that zsh will be able to see it. For the src blocks themselves, I'm using ~begin_src sh~ as this gets syntax highlighting on both emacs itself and Github.
 * Preliminaries
-First disable the compinit taking place in the global ~/etc/zsh/zshrc~ on Ubuntu and its derivatives, since that makes the first initialisation of the terminal a lot slower (recommended from [[https://github.com/zdharma/zplugin#disabling-system-wide-compinit-call-ubuntu][here]]). This must be placed in ~.zshenv~.
+First disable the compinit taking place in the global ~/etc/zsh/zshrc~ on Ubuntu and its derivatives, since that makes the first initialisation of the terminal a lot slower (recommended from [[https://github.com/zdharma/zinit#disabling-system-wide-compinit-call-ubuntu][here]]). This must be placed in ~.zshenv~.
 #+begin_example
 # Skip the not really helping Ubuntu global compinit
 skip_global_compinit=1
@@ -56,58 +56,58 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 #+end_src
-* Zsh plugins with zplugin
+* Zsh plugins with zinit
 ** Bootstrap the plugin manager itself
-I decided to use a plugin manager after all, since I started using more than one plugins. I first used [[https://github.com/zplug/zplug][zplug]], since it seemed to me as the simplest to use. After a little while, I switched to [[https://github.com/zdharma/zplugin][zplugin]] instead, a switch that came about for misguided tbh reasons, because the first initialisation of my terminal emulator after startup took half a minute (!) and thought zplug was the culprit, having read about zplug being way slower than other plugin managers on reddit. It turns out however this was the fault of the global zshrc file starting an additional compinit (something that either was probably fixed on oh-my-zsh, or I had thought long loading times were part and parcel of me using a framework, since I hadn't noticed anything like this when I was using that). Since I made the switch however, I decided I might as well stay with zplugin, even though I don't use enough plugins to be able to feel the speed difference compared to zplug. After using for a little bit however, I think I prefer it over zplug because it actually has a separate command to update zplugin itself (~zplugin self-update~), while zplug afaik implemented self-managing by having itself load as a plugin with special conditions. Also I ended up using some of the more complicated features I thought I wouldn't use, and for those cases zplugin's ~ice~ way (that is, putting any complexity modifiers on the previous line and to apply only for the plugin immediately afterwards) feels cleaner to me than attaching these invocations to the plugin loading itself, as zplug does.\\
-First download and source zplugin itself. Note:
+I decided to use a plugin manager after all, since I started using more than one plugins. I first used [[https://github.com/zplug/zplug][zplug]], since it seemed to me as the simplest to use. After a little while, I switched to [[https://github.com/zdharma/zinit][zinit]] instead, a switch that came about for misguided tbh reasons, because the first initialisation of my terminal emulator after startup took half a minute (!) and thought zplug was the culprit, having read about zplug being way slower than other plugin managers on reddit. It turns out however this was the fault of the global zshrc file starting an additional compinit (something that either was probably fixed on oh-my-zsh, or I had thought long loading times were part and parcel of me using a framework, since I hadn't noticed anything like this when I was using that). Since I made the switch however, I decided I might as well stay with zinit, even though I don't use enough plugins to be able to feel the speed difference compared to zplug. After using for a little bit however, I think I prefer it over zplug because it actually has a separate command to update zinit itself (~zinit self-update~), while zplug afaik implemented self-managing by having itself load as a plugin with special conditions. Also I ended up using some of the more complicated features I thought I wouldn't use, and for those cases zinit's ~ice~ way (that is, putting any complexity modifiers on the previous line and to apply only for the plugin immediately afterwards) feels cleaner to me than attaching these invocations to the plugin loading itself, as zplug does.\\
+First download and source zinit itself. Note:
 #+begin_example
-After installing and reloading the shell compile Zplugin with zplugin self-update.
+After installing and reloading the shell compile Zinit with zinit self-update.
 #+end_example
 #+begin_src sh
-if [[ ! -d ~/.zplugin ]];then
-mkdir ~/.zplugin
-git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+if [[ ! -d ~/.zinit ]];then
+mkdir ~/.zinit
+git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
 fi
-source ~/.zplugin/bin/zplugin.zsh
+source ~/.zinit/bin/zinit.zsh
 #+end_src
 ** Plugins
 Now add the plugins. I'm loading them with ~light~, because I don't really care about the extra features ~load~ provides.\\
 *** Zvm (zsh version manager)
-Through zplugin I also install [[https://github.com/molovo/zvm][ZVM]], which is a tool that allows to install and manage additional zsh versions, something useful when the system zsh version is on the older side. This has as dependencies a couple other programs from the same dev, [[https://github.com/molovo/color][color]] (a coloring strings utility) and [[https://github.com/molovo/revolver][revolver]] (a progress spinner utility). I thus install here each dependency, renaming various components in order to be properly detected by zplugin, and finally install zvm itself, also renaming and additionally sourcing components.
+Through zinit I also install [[https://github.com/molovo/zvm][ZVM]], which is a tool that allows to install and manage additional zsh versions, something useful when the system zsh version is on the older side. This has as dependencies a couple other programs from the same dev, [[https://github.com/molovo/color][color]] (a coloring strings utility) and [[https://github.com/molovo/revolver][revolver]] (a progress spinner utility). I thus install here each dependency, renaming various components in order to be properly detected by zinit, and finally install zvm itself, also renaming and additionally sourcing components.
 #+begin_src sh
-zplugin ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
-zplugin light molovo/color
+zinit ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
+zinit light molovo/color
 
-zplugin ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
-zplugin light molovo/revolver
+zinit ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
+zinit light molovo/revolver
 
-zplugin ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
-zplugin light molovo/zvm
+zinit ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
+zinit light molovo/zvm
 #+end_src
 *** Zsh command architect (semigraphical command builder)
 I also add [[https://github.com/psprint/zsh-cmd-architect][zsh-cmd-architect]], which provides a semigraphical interface for building commands to execute. It is launched with ~C-t~.
 #+begin_src sh
-zplugin light psprint/zsh-cmd-architect
+zinit light psprint/zsh-cmd-architect
 #+end_src
 *** Agkozak zsh prompt
 I didn't feel like rolling my own prompt, so I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]], which is really close to what I would have made anyways.
 #+begin_src sh
-zplugin light agkozak/agkozak-zsh-prompt
+zinit light agkozak/agkozak-zsh-prompt
 #+end_src
 *** zsh-auto-notify (integrate zsh with system notifications)
 I also install [[https://github.com/MichaelAquilina/zsh-auto-notify][zsh-auto-notify]]. This notifies when a process is over via the system notifications, so that I don't have to look over to the terminal window all the time.
 #+begin_src sh
-zplugin light MichaelAquilina/zsh-auto-notify
+zinit light MichaelAquilina/zsh-auto-notify
 #+end_src
 *** zsh-you-should-use (aliases reminder)
 I also install [[https://github.com/MichaelAquilina/zsh-you-should-use][zsh-you-should-use]]. This plugin lets me know if there any aliases for the commands I typed in their full form.
 #+begin_src sh
-zplugin light MichaelAquilina/zsh-you-should-use
+zinit light MichaelAquilina/zsh-you-should-use
 #+end_src
 *** zsh-completion-generator
 I also install [[https://github.com/RobSis/zsh-completion-generator][zsh-completion-generator]]. This plugin generates completions for various programs from their help texts, which is useful when completions aren't otherwise included, and any potential completion file available online might not be up-to-date with newly added switches. I'm currently using it for nano and nnn. Note that I couldn't get the zstyle command provided in the readme to work, so I have to remember to run after the installation the command ~gencomp~ with the name of each desired program e.g. ~gencomp nano~ and ~gencomp nnn~.
 #+begin_src sh
-zplugin light RobSis/zsh-completion-generator
+zinit light RobSis/zsh-completion-generator
 #+end_src
 * Plugin settings
 Put the git info on the left side of the agkozak zsh prompt (see [[https://github.com/agkozak/agkozak-zsh-prompt#optional-left-prompt-only-mode][here]]).
@@ -275,7 +275,7 @@ autoload -U colors && colors
 export SPROMPT="Correct $fg_bold[red]%R$reset_color to $fg_bold[green]%r?$reset_color ($fg_bold[green]Yes$reset_color, $fg_bold[yellow]No$reset_color, $fg_bold[red]Abort$reset_color, $fg_bold[blue]Edit$reset_color) "
 #+end_src
 * Aliases
-Here are aliases for variants of ls and grep, git status and zplugin commands, but also one to have quick access to my own preferences on tty-clock.
+Here are aliases for variants of ls and grep, git status and zinit commands, but also one to have quick access to my own preferences on tty-clock.
 #+begin_src sh
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -284,7 +284,7 @@ alias egrep='egrep --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 alias gs='git status'
-alias zstatus='zplugin zstatus'
+alias zstatus='zinit zstatus'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 #+end_src
 Also alias the dollar sign and zsh's percent sign so that they are ignored if they are in the beginning of a command, something that would happen most likely by mistake e.g. copying a command from the internet (idea from [[https://github.com/zpm-zsh/undollar][here]] and [[http://zsh.sourceforge.net/Guide/zshguide01.html#l4][here]]).

@@ -2,30 +2,30 @@ HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=10000
 
-if [[ ! -d ~/.zplugin ]];then
-mkdir ~/.zplugin
-git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+if [[ ! -d ~/.zinit ]];then
+mkdir ~/.zinit
+git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
 fi
-source ~/.zplugin/bin/zplugin.zsh
+source ~/.zinit/bin/zinit.zsh
 
-zplugin ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
-zplugin light molovo/color
+zinit ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
+zinit light molovo/color
 
-zplugin ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
-zplugin light molovo/revolver
+zinit ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
+zinit light molovo/revolver
 
-zplugin ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
-zplugin light molovo/zvm
+zinit ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
+zinit light molovo/zvm
 
-zplugin light psprint/zsh-cmd-architect
+zinit light psprint/zsh-cmd-architect
 
-zplugin light agkozak/agkozak-zsh-prompt
+zinit light agkozak/agkozak-zsh-prompt
 
-zplugin light MichaelAquilina/zsh-auto-notify
+zinit light MichaelAquilina/zsh-auto-notify
 
-zplugin light MichaelAquilina/zsh-you-should-use
+zinit light MichaelAquilina/zsh-you-should-use
 
-zplugin light RobSis/zsh-completion-generator
+zinit light RobSis/zsh-completion-generator
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
@@ -134,7 +134,7 @@ alias egrep='egrep --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 alias gs='git status'
-alias zstatus='zplugin zstatus'
+alias zstatus='zinit zstatus'
 alias termclock="tty-clock -b -c -C 6 -f \"%A %d/%m/%y\" -B -a 100000000 -d 0"
 
 alias \$=''
