@@ -8,9 +8,6 @@ git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
 fi
 source ~/.zplugin/bin/zplugin.zsh
 
-zplugin light zdharma/zui
-zplugin light zdharma/zplugin-crasis
-
 zplugin ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
 zplugin light molovo/color
 
@@ -32,7 +29,6 @@ zplugin light RobSis/zsh-completion-generator
 
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
-AUTO_NOTIFY_IGNORE+=("crasis")
 AUTO_NOTIFY_IGNORE+=("micro")
 AUTO_NOTIFY_IGNORE+=("mocp")
 

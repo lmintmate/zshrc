@@ -11,7 +11,6 @@
 - [[#zsh-plugins-with-zplugin][Zsh plugins with zplugin]]
   - [[#bootstrap-the-plugin-manager-itself][Bootstrap the plugin manager itself]]
   - [[#plugins][Plugins]]
-    - [[#crasis-semigraphical-zplugin-manager][Crasis (semigraphical zplugin manager)]]
     - [[#zvm-zsh-version-manager][Zvm (zsh version manager)]]
     - [[#zsh-command-architect-semigraphical-command-builder][Zsh command architect (semigraphical command builder)]]
     - [[#agkozak-zsh-prompt][Agkozak zsh prompt]]
@@ -73,12 +72,6 @@ source ~/.zplugin/bin/zplugin.zsh
 #+end_src
 ** Plugins
 Now add the plugins. I'm loading them with ~light~, because I don't really care about the extra features ~load~ provides.\\
-*** Crasis (semigraphical zplugin manager)
-First add [[https://github.com/zdharma/zplugin-crasis][zplugin-crasis]], which is an ncurses-style manager for zplugin plugins. With it one can easily add, enable/disable or remove plugins without having to edit the .zshrc file directly.
-#+begin_src sh
-zplugin light zdharma/zui
-zplugin light zdharma/zplugin-crasis
-#+end_src
 *** Zvm (zsh version manager)
 Through zplugin I also install [[https://github.com/molovo/zvm][ZVM]], which is a tool that allows to install and manage additional zsh versions, something useful when the system zsh version is on the older side. This has as dependencies a couple other programs from the same dev, [[https://github.com/molovo/color][color]] (a coloring strings utility) and [[https://github.com/molovo/revolver][revolver]] (a progress spinner utility). I thus install here each dependency, renaming various components in order to be properly detected by zplugin, and finally install zvm itself, also renaming and additionally sourcing components.
 #+begin_src sh
@@ -121,9 +114,8 @@ Put the git info on the left side of the agkozak zsh prompt (see [[https://githu
 #+begin_src sh
 AGKOZAK_LEFT_PROMPT_ONLY=1
 #+end_src
-In regards to ~zsh-auto-notify~, don't show notifications for the zplugin manager crasis, the text editor micro and the music player mocp, since it's normal that these run for more than 10 seconds.
+In regards to ~zsh-auto-notify~, don't show notifications for the text editor micro and the music player mocp, since it's normal that these run for more than 10 seconds.
 #+begin_src sh
-AUTO_NOTIFY_IGNORE+=("crasis")
 AUTO_NOTIFY_IGNORE+=("micro")
 AUTO_NOTIFY_IGNORE+=("mocp")
 #+end_src
