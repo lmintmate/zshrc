@@ -8,15 +8,6 @@ git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
 fi
 source ~/.zinit/bin/zinit.zsh
 
-zinit ice wait"2" lucid as"program" cp"color.zsh -> color" pick"color"
-zinit light molovo/color
-
-zinit ice wait"2" lucid as"program" mv"revolver.zsh-completion -> _revolver" pick"revolver"
-zinit light molovo/revolver
-
-zinit ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
-zinit light molovo/zvm
-
 zinit light agkozak/agkozak-zsh-prompt
 
 zinit light MichaelAquilina/zsh-auto-notify
