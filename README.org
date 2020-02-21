@@ -12,7 +12,6 @@
   - [[#bootstrap-the-plugin-manager-itself][Bootstrap the plugin manager itself]]
   - [[#plugins][Plugins]]
     - [[#zvm-zsh-version-manager][Zvm (zsh version manager)]]
-    - [[#zsh-command-architect-semigraphical-command-builder][Zsh command architect (semigraphical command builder)]]
     - [[#agkozak-zsh-prompt][Agkozak zsh prompt]]
     - [[#zsh-auto-notify-integrate-zsh-with-system-notifications][zsh-auto-notify (integrate zsh with system notifications)]]
     - [[#zsh-you-should-use-aliases-reminder][zsh-you-should-use (aliases reminder)]]
@@ -83,11 +82,6 @@ zinit light molovo/revolver
 
 zinit ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
 zinit light molovo/zvm
-#+end_src
-*** Zsh command architect (semigraphical command builder)
-I also add [[https://github.com/psprint/zsh-cmd-architect][zsh-cmd-architect]], which provides a semigraphical interface for building commands to execute. It is launched with ~C-t~.
-#+begin_src sh
-zinit light psprint/zsh-cmd-architect
 #+end_src
 *** Agkozak zsh prompt
 I didn't feel like rolling my own prompt, so I'm using the [[https://github.com/agkozak/agkozak-zsh-prompt][agkozak zsh prompt]], which is really close to what I would have made anyways.

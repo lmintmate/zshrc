@@ -17,8 +17,6 @@ zinit light molovo/revolver
 zinit ice wait"2" lucid as"program" mv"zvm.zsh-completion -> _zvm" pick"zvm" src"zvm-shell-integration.zsh"
 zinit light molovo/zvm
 
-zinit light psprint/zsh-cmd-architect
-
 zinit light agkozak/agkozak-zsh-prompt
 
 zinit light MichaelAquilina/zsh-auto-notify
