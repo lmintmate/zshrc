@@ -14,8 +14,6 @@ zinit light MichaelAquilina/zsh-auto-notify
 
 zinit light MichaelAquilina/zsh-you-should-use
 
-zinit light RobSis/zsh-completion-generator
-
 AGKOZAK_LEFT_PROMPT_ONLY=1
 
 AUTO_NOTIFY_IGNORE+=("micro")
