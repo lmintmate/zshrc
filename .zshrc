@@ -4,9 +4,9 @@ SAVEHIST=10000
 
 if [[ ! -d ~/.zinit ]];then
 mkdir ~/.zinit
-git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit
 fi
-source ~/.zinit/bin/zinit.zsh
+source ~/.zinit/zinit.zsh
 
 zinit light agkozak/agkozak-zsh-prompt
 
